@@ -1,0 +1,171 @@
+﻿<Window x:Class="SiHanExcelCompare.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SiHanExcelCompare"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="900" Width="1660">
+    <Grid Name="grid1" Margin="24">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="800"/>
+            <ColumnDefinition Width="800" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="29" />
+            <RowDefinition Height="760"/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,0,4,0">
+            <Grid Name="sourceGrid" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="49"/>
+                    <ColumnDefinition Width="231" />
+                    <ColumnDefinition Width="84" />
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="89*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="43" />
+                    <RowDefinition Height="128*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,8,0,9" Height="26" Width="46">原表：</Label>
+                <TextBox x:Name="sourceFileName_text" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Height="22" Margin="0,10,0,11" ></TextBox>
+                <Button x:Name="sourceBrowser_btn" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Height="22" HorizontalContentAlignment="Center" Margin="0,10,0,11" Click="sourceBrowser_btn_Click" >浏览</Button>
+                <ListView Name="sourceSheetList" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,8,0" SelectionChanged="sourceSheetList_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn  Header=" "
+                                    Width="20"  
+                                    DisplayMemberBinding="{Binding Path=Index}" />
+                                <GridViewColumn Header="表单"  
+                                    Width="150"  
+                                    DisplayMemberBinding="{Binding Path=Name}" />
+                                <GridViewColumn Header="表头行号"
+                                    Width="80"  
+                                 >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox x:Name="sourceSheetLineNum_text" Text="{Binding Path=LineNum}" MinWidth="80" MaxWidth="80" PreviewTextInput="sourceSheetLineNum_text_PreviewTextInput" TextChanged="sourceSheetLineNum_text_TextChanged"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="选中"
+                                    DisplayMemberBinding="{Binding Path=Selected}" 
+                                    Width="50"  
+                                 />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Setters>
+                                <EventSetter Event="MouseDoubleClick" Handler="sourceSheetList_ItemDoubleClick" />
+                            </Style.Setters>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <ListView Name="sourceHeaderList" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Margin="8,0,0,0" SelectionChanged="sourceHeaderList_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn  Header="列"
+                                    Width="50"  
+                                    DisplayMemberBinding="{Binding Path=Column}" />
+                                <GridViewColumn Header="表头名"  
+                                    Width="200"  
+                                    DisplayMemberBinding="{Binding Path=Name}" />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="1" Margin="4,0,0,0">
+            <Grid Name="targetGrid" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="49"/>
+                    <ColumnDefinition Width="231" />
+                    <ColumnDefinition Width="84" />
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="89*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="43" />
+                    <RowDefinition Height="128*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,8,0,9" Height="26" Width="46" Padding="0,5">目标表：</Label>
+                <TextBox x:Name="targetFileName_text" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Height="22" Margin="0,10,0,11" ></TextBox>
+                <Button x:Name="targetBrowser_btn" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Height="22" HorizontalContentAlignment="Center" Margin="0,10,0,11" Click="targetBrowser_btn_Click" >浏览</Button>
+                <ListView Name="targetSheetList" Grid.Row="1" Grid.ColumnSpan="3" SelectionChanged="targetSheetList_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn  Header=""
+                                    Width="20"  
+                                    DisplayMemberBinding="{Binding Path=Index}" />
+                                <GridViewColumn Header="表"  
+                                    Width="150"  
+                                    DisplayMemberBinding="{Binding Path=Name}" />
+                                <GridViewColumn Header="表头行号"
+                                    Width="80"  
+                                 >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox x:Name="targetSheetLineNum_text" Text="{Binding Path=LineNum}" MinWidth="80" MaxWidth="80" PreviewTextInput="targetSheetLineNum_text_PreviewTextInput" TextChanged="targetSheetLineNum_text_TextChanged"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="选中"
+                                    DisplayMemberBinding="{Binding Path=Selected}" 
+                                    Width="50"  
+                                 />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Setters>
+                                <EventSetter Event="MouseDoubleClick" Handler="targetSheetList_ItemDoubleClick" />
+                            </Style.Setters>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <ListView Name="targetHeaderList" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Margin="8,0,0,0">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn  Header="列" Width="50"   >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox x:Name="targetHeaderTargetColumn_text" Text="{Binding Path=TargetColumn}" MinWidth="50" MaxWidth="50" PreviewTextInput="targetHeaderTargetColumn_text_PreviewTextInput" MinHeight="0"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="表头名"  
+                                    Width="250"  
+                                    DisplayMemberBinding="{Binding Path=Name}" />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </GroupBox>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="Compare_btn" HorizontalAlignment="Left" Width="79" Height="29" Padding="2,1,1,1" Margin="8,0,0,0" Click="Compare_btn_Click">对比</Button>
+            <Button x:Name="ShowAll_btn" HorizontalAlignment="Left" Width="79" Height="29" Padding="2,1,1,1" Margin="8,0,0,0" Click="ShowAll_btn_Click">显示全部</Button>
+        </StackPanel>
+        <StackPanel  Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid Name="scrollGrid" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="788"/>
+                    <ColumnDefinition Width="788" />
+                </Grid.ColumnDefinitions>
+                <DataGrid Name="sourceTableData" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" MinWidth="788" MaxWidth="788" MinHeight="570" MaxHeight="570" LoadingRow="sourceTableData_LoadingRow" GridLinesVisibility="Horizontal" IsReadOnly="True"/>
+                <DataGrid Name="targetTableData" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" MinWidth="778" MinHeight="570" MaxWidth="788" MaxHeight="570" LoadingRow="targetTableData_LoadingRow" IsReadOnly="True" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
