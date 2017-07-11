@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SiHanExcelCompare"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="900" Width="1660">
+        WindowStartupLocation="CenterScreen" ResizeMode ="NoResize"
+        Title="MainWindow" Height="900" Width="1660"  MinHeight="900" MinWidth="1660"  MaxHeight="900" MaxWidth="1660">
     <Grid Name="grid1" Margin="24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="800"/>
