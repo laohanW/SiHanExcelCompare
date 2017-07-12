@@ -1,6 +1,12 @@
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\SiHanExcelCompare.exe.config
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\SiHanExcelCompare.exe
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\SiHanExcelCompare.pdb
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\ICSharpCode.SharpZipLib.dll
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.dll
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OOXML.dll
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OpenXml4Net.dll
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OpenXmlFormats.dll
+E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.xml
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\LoginWindow.g.cs
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\MainWindow.g.cs
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\App.g.cs
@@ -13,9 +19,3 @@ E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\SiHanExcelCompare
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\SiHanExcelCompare.csproj.GenerateResource.Cache
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\SiHanExcelCompare.exe
 E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\obj\Release\SiHanExcelCompare.pdb
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\ICSharpCode.SharpZipLib.dll
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.dll
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OOXML.dll
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OpenXml4Net.dll
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.OpenXmlFormats.dll
-E:\personal\VS\SiHanExcelCompare\SiHanExcelCompare\bin\Release\NPOI.xml

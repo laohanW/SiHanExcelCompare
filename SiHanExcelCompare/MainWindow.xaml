@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:SiHanExcelCompare"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" ResizeMode ="NoResize"
-        Title="MainWindow" Height="900" Width="1660"  MinHeight="900" MinWidth="1660"  MaxHeight="900" MaxWidth="1660">
+        Title="思晗对比工具" Height="800" Width="1400"  MinHeight="800" MinWidth="1400"  MaxHeight="800" MaxWidth="1400">
     <Grid Name="grid1" Margin="24">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800"/>
-            <ColumnDefinition Width="800" />
+            <ColumnDefinition Width="670"/>
+            <ColumnDefinition Width="670" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
             <RowDefinition Height="29" />
-            <RowDefinition Height="760"/>
+            <RowDefinition Height="490"/>
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,0,4,0">
             <Grid Name="sourceGrid" Margin="8">
@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="231" />
                     <ColumnDefinition Width="84" />
                     <ColumnDefinition Width="13*"/>
-                    <ColumnDefinition Width="89*"/>
+                    <ColumnDefinition Width="69*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="43" />
@@ -75,7 +75,7 @@
                                     Width="50"  
                                     DisplayMemberBinding="{Binding Path=Column}" />
                                 <GridViewColumn Header="表头名"  
-                                    Width="200"  
+                                    Width="100"  
                                     DisplayMemberBinding="{Binding Path=Name}" />
                             </GridView.Columns>
                         </GridView>
@@ -90,7 +90,7 @@
                     <ColumnDefinition Width="231" />
                     <ColumnDefinition Width="84" />
                     <ColumnDefinition Width="13*"/>
-                    <ColumnDefinition Width="89*"/>
+                    <ColumnDefinition Width="79*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="43" />
@@ -153,18 +153,27 @@
                 </ListView>
             </Grid>
         </GroupBox>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Compare_btn" HorizontalAlignment="Left" Width="79" Height="29" Padding="2,1,1,1" Margin="8,0,0,0" Click="Compare_btn_Click">对比</Button>
-            <Button x:Name="ShowAll_btn" HorizontalAlignment="Left" Width="79" Height="29" Padding="2,1,1,1" Margin="8,0,0,0" Click="ShowAll_btn_Click">显示全部</Button>
-        </StackPanel>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="96"/>
+                <ColumnDefinition Width="574" />
+                <ColumnDefinition Width="467*"/>
+                <ColumnDefinition Width="108*"/>
+                <ColumnDefinition Width="97*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="export_btn"  Grid.Row="0" Grid.Column="0"  Click="export_btn_Click">导出结果</Button>
+            <Button x:Name="export_btn_all"  Grid.Row="0" Grid.Column="1" Click="export_btn_all_Click" HorizontalAlignment="Left" Width="102" Margin="30,0,0,0">导出原表</Button>
+            <Button Grid.Row="0" Grid.Column="4" x:Name="Compare_btn" HorizontalAlignment="Left" Width="79" Padding="2,1,1,1" Margin="8,0,0,0" Click="Compare_btn_Click">对比</Button>
+            <CheckBox  Grid.Row="0" Grid.Column="3" x:Name="showAll_ck" IsChecked="True" VerticalAlignment="Center"  FlowDirection="LeftToRight" Unchecked="showAll_ck_Unchecked" Checked="showAll_ck_Checked"  >显示全部</CheckBox>
+        </Grid>
         <StackPanel  Grid.Row="2" Grid.ColumnSpan="2">
             <Grid Name="scrollGrid" Margin="8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="788"/>
-                    <ColumnDefinition Width="788" />
+                    <ColumnDefinition Width="660"/>
+                    <ColumnDefinition Width="660" />
                 </Grid.ColumnDefinitions>
-                <DataGrid Name="sourceTableData" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" MinWidth="788" MaxWidth="788" MinHeight="570" MaxHeight="570" LoadingRow="sourceTableData_LoadingRow" GridLinesVisibility="Horizontal" IsReadOnly="True"/>
-                <DataGrid Name="targetTableData" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" MinWidth="778" MinHeight="570" MaxWidth="788" MaxHeight="570" LoadingRow="targetTableData_LoadingRow" IsReadOnly="True" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray"/>
+                <DataGrid Name="sourceTableData" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" MinWidth="650" MaxWidth="650" MinHeight="470" MaxHeight="470" LoadingRow="sourceTableData_LoadingRow" GridLinesVisibility="Horizontal" IsReadOnly="True"/>
+                <DataGrid Name="targetTableData" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" MinWidth="650" MaxWidth="650" MinHeight="470" MaxHeight="470" LoadingRow="targetTableData_LoadingRow" IsReadOnly="True" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray"/>
             </Grid>
         </StackPanel>
     </Grid>

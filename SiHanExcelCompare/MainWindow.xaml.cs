@@ -73,7 +73,7 @@ namespace SiHanExcelCompare
                     var lineNum = sheetData.lineNum;
                     IRow firstRow = sheet.GetRow(lineNum-1);
                     int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数
-                    for (int j = 1, i = 0; i < cellCount; i++, j++)
+                    for (int j = 1, i = 0; i <= cellCount; i++, j++)
                     {
                         headerList.Add(new HeaderData(j, GetCellValue(firstRow, i)));
                     }
@@ -470,30 +470,6 @@ namespace SiHanExcelCompare
             }
             return true;
         }
-        private string NunToChar(int number)
-        {
-            if (65 <= number && 90 >= number)
-            {
-                System.Text.ASCIIEncoding asciiEncoding = new System.Text.ASCIIEncoding();
-                byte[] btNumber = new byte[] { (byte)number };
-                return asciiEncoding.GetString(btNumber);
-            }
-            else if (number>90 && number<=180)
-            {
-                int num = number - 90;
-                System.Text.ASCIIEncoding asciiEncoding = new System.Text.ASCIIEncoding();
-                byte[] btNumber = new byte[] { (byte)num };
-                return "A" + asciiEncoding.GetString(btNumber);
-            }
-            else if (number > 180 && number <= 270)
-            {
-                int num = number - 180;
-                System.Text.ASCIIEncoding asciiEncoding = new System.Text.ASCIIEncoding();
-                byte[] btNumber = new byte[] { (byte)num };
-                return "B" + asciiEncoding.GetString(btNumber);
-            }
-            return "数字不在转换范围内";
-        }
         private static string GetCellValue(IRow row,int cellIndex)
         {
             try
@@ -573,15 +549,6 @@ namespace SiHanExcelCompare
             else
                 dataGridRow.Background = Brushes.Plum;
         }
-        private void ShowAll_btn_Click(object sender, RoutedEventArgs e)
-        {
-            m_showAll = true;
-            //ResetSourceDataTable();
-            sourceTableData.ItemsSource = null;
-            targetTableData.ItemsSource = null;
-            sourceTableData.ItemsSource = m_source_table.DefaultView;
-            targetTableData.ItemsSource = m_target_table.DefaultView;
-        }
         private void Compare_btn_Click(object sender, RoutedEventArgs e)
         {
             if (m_source_data.headerList.Count <= 0 || m_target_data.headerList.Count <= 0)
@@ -603,12 +570,27 @@ namespace SiHanExcelCompare
             m_source_table_compared = new DataTable();
             m_target_table_compared = new DataTable();
             SetComparedDataTable(m_source_data, m_target_data, ref m_source_table_compared, ref m_target_table_compared);
+            int lastColumns = m_source_table.Columns.Count - 1;
+            var lineNum = m_source_data.GetSelectLineNum();
+            for (int i = 0; i < m_source_table.Rows.Count; i++)
+            {
+                if (m_sourceEqList.Contains(i + lineNum + 1)) continue;
+                var row = m_source_table.Rows[i];
+                row.SetField(lastColumns, "--错误--");
+            }
             sourceTableData.ItemsSource = null;
             targetTableData.ItemsSource = null;
-            sourceTableData.ItemsSource = m_source_table_compared.DefaultView;
-            targetTableData.ItemsSource = m_target_table_compared.DefaultView;
+            if (m_showAll)
+            {
+                sourceTableData.ItemsSource = m_source_table.DefaultView;
+                targetTableData.ItemsSource = m_target_table.DefaultView;
+            }
+            else
+            {
+                sourceTableData.ItemsSource = m_source_table_compared.DefaultView;
+                targetTableData.ItemsSource = m_target_table_compared.DefaultView;
+            }
             //sourceTableData.Rows
-            m_showAll = false;
 
         }
         private void SetDataTable(DataValue data, ref DataTable result, List<int> exludeList = null)
@@ -616,13 +598,13 @@ namespace SiHanExcelCompare
             var sheet=data.GetSelectSheet();
             var sheetTop = data.GetSelectLineNum();
             SetTableColumns(sheet, sheetTop, ref result);
-            for (int i = sheetTop+1; i < sheet.LastRowNum; i++)
+            for (int i = sheetTop+1; i <= sheet.LastRowNum; i++)
             {
                 if (exludeList!=null && exludeList.Contains(i)) continue;
                 var reRow=result.NewRow();
                 try {
                     var row = sheet.GetRow(i);
-                    for (int j = 0; j < row.LastCellNum; j++)
+                    for (int j = 0; j <= row.LastCellNum; j++)
                     {
                         var value = GetCellValue(sheet, i, j);
                         reRow.SetField<string>(j, value);
@@ -644,7 +626,7 @@ namespace SiHanExcelCompare
             SetTableColumns(targetSheet, targetSheetTop, ref targetResult);
             m_sourceEqList.Clear();
             m_targetEqList.Clear();
-            for (int m = targetSheetTop+1; m < targetSheet.LastRowNum; m++)
+            for (int m = targetSheetTop+1; m <= targetSheet.LastRowNum; m++)
             {
                 List<List<int>> waitCompareList = new List<List<int>>();
                 for (int i = 0; i < target.headerList.Count; i++)
@@ -688,7 +670,7 @@ namespace SiHanExcelCompare
         {
             var list = new List<int>();
             var length = sheet.LastRowNum;
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i <= length; i++)
             {
                 try
                 {
@@ -710,7 +692,7 @@ namespace SiHanExcelCompare
             try
             {
                 var row = sheet.GetRow(rowIndex);
-                for (int i = 0; i < row.LastCellNum; i++)
+                for (int i = 0; i <= row.LastCellNum; i++)
                 {
                     var topValue = GetCellValue(row, i);
                     result.Columns.Add(topValue, typeof(string));
@@ -736,15 +718,6 @@ namespace SiHanExcelCompare
             targetTableData.ItemsSource = null;
             targetTableData.ItemsSource = m_target_table.DefaultView;
         }
-        //private DataValue m_source_data;
-        //private DataValue m_target_data;
-        //private DataTable m_source_table = new DataTable();
-        //private DataTable m_source_table_compared = new DataTable();
-        //private DataTable m_target_table = new DataTable();
-        //private DataTable m_target_table_compared = new DataTable();
-        //private List<int> m_sourceEqList = new List<int>();
-        //private List<int> m_targetEqList = new List<int>();
-        //private bool m_showAll = true;
         private void ClearSourceData()
         {
             m_source_data = null ;
@@ -754,7 +727,6 @@ namespace SiHanExcelCompare
             sourceTableData.ItemsSource = null;
             sourceSheetList.ItemsSource = null;
             sourceHeaderList.ItemsSource = null;
-            m_showAll = true;
         }
         private void ClearTargetData()
         {
@@ -765,7 +737,144 @@ namespace SiHanExcelCompare
             targetTableData.ItemsSource = null;
             targetSheetList.ItemsSource = null;
             targetHeaderList.ItemsSource = null;
+        }
+
+        private void showAll_ck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            m_showAll = false;
+            if (sourceTableData!=null)
+            {
+                sourceTableData.ItemsSource = null;
+                targetTableData.ItemsSource = null;
+                if (m_showAll)
+                {
+                    sourceTableData.ItemsSource = m_source_table.DefaultView;
+                    targetTableData.ItemsSource = m_target_table.DefaultView;
+                }
+                else
+                {
+                    sourceTableData.ItemsSource = m_source_table_compared.DefaultView;
+                    targetTableData.ItemsSource = m_target_table_compared.DefaultView;
+                }
+            }
+        }
+
+        private void showAll_ck_Checked(object sender, RoutedEventArgs e)
+        {
             m_showAll = true;
+            if (sourceTableData!=null)
+            {
+                sourceTableData.ItemsSource = null;
+                targetTableData.ItemsSource = null;
+                if (m_showAll)
+                {
+                    sourceTableData.ItemsSource = m_source_table.DefaultView;
+                    targetTableData.ItemsSource = m_target_table.DefaultView;
+                }
+                else
+                {
+                    sourceTableData.ItemsSource = m_source_table_compared.DefaultView;
+                    targetTableData.ItemsSource = m_target_table_compared.DefaultView;
+                }
+            }
+        }
+        private void export_btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog m_Dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = m_Dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+            string dir = m_Dialog.SelectedPath.Trim();
+            string filePath = dir +"/"+ sourceFileName_text.Text + "_结果.xlsx";
+            int r=DataTableToExcel(m_source_table_compared, filePath, "sheet1", true);
+            if (r>0)
+                 MessageBox.Show("导出成功:"+filePath, "info", MessageBoxButton.OK);
+        }
+
+
+        private void export_btn_all_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog m_Dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = m_Dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+            string dir = m_Dialog.SelectedPath.Trim();
+            string filePath = dir + "/" + sourceFileName_text.Text + "_原.xlsx";
+            int r = DataTableToExcel(m_source_table, filePath, "sheet1", true);
+            if (r > 0)
+                MessageBox.Show("导出成功:" + filePath, "info", MessageBoxButton.OK);
+        }
+        /// <summary>
+        /// 将DataTable数据导入到excel中
+        /// </summary>
+        /// <param name="data">要导入的数据</param>
+        /// <param name="isColumnWritten">DataTable的列名是否要导入</param>
+        /// <param name="sheetName">要导入的excel的sheet的名称</param>
+        /// <returns>导入数据行数(包含列名那一行)</returns>
+        public int DataTableToExcel(DataTable data,string filePath, string sheetName, bool isColumnWritten)
+        {
+            int i = 0;
+            int j = 0;
+            int count = 0;
+            ISheet sheet = null;
+            IWorkbook workbook;
+            if (filePath.IndexOf(".xlsx") > 0) // 2007版本
+                workbook = new XSSFWorkbook();
+            else if (filePath.IndexOf(".xls") > 0) // 2003版本
+                workbook = new HSSFWorkbook();
+            else
+                workbook = null;
+            try
+            {
+                if (workbook != null)
+                {
+                    sheet = workbook.CreateSheet(sheetName);
+                }
+                else
+                {
+                    return -1;
+                }
+
+                if (isColumnWritten == true) //写入DataTable的列名
+                {
+                    IRow row = sheet.CreateRow(0);
+                    for (j = 0; j < data.Columns.Count; ++j)
+                    {
+                        row.CreateCell(j).SetCellValue(data.Columns[j].ColumnName);
+                    }
+                    count = 1;
+                }
+                else
+                {
+                    count = 0;
+                }
+
+                for (i = 0; i < data.Rows.Count; ++i)
+                {
+                    IRow row = sheet.CreateRow(count);
+                    for (j = 0; j < data.Columns.Count; ++j)
+                    {
+                        row.CreateCell(j).SetCellValue(data.Rows[i][j].ToString());
+                    }
+                    ++count;
+                }
+                using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    workbook.Write(fs); //写入到excel
+                }
+                return count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("导出错误:"+ ex.Message, "错误", MessageBoxButton.OK);
+                return -1;
+            }
         }
     }
 }
