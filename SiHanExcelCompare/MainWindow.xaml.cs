@@ -572,11 +572,13 @@ namespace SiHanExcelCompare
             SetComparedDataTable(m_source_data, m_target_data, ref m_source_table_compared, ref m_target_table_compared);
             int lastColumns = m_source_table.Columns.Count - 1;
             var lineNum = m_source_data.GetSelectLineNum();
+            int cou = 0;
             for (int i = 0; i < m_source_table.Rows.Count; i++)
             {
                 if (m_sourceEqList.Contains(i + lineNum + 1)) continue;
                 var row = m_source_table.Rows[i];
                 row.SetField(lastColumns, "--错误--");
+                cou++;
             }
             sourceTableData.ItemsSource = null;
             targetTableData.ItemsSource = null;
@@ -590,6 +592,10 @@ namespace SiHanExcelCompare
                 sourceTableData.ItemsSource = m_source_table_compared.DefaultView;
                 targetTableData.ItemsSource = m_target_table_compared.DefaultView;
             }
+            var sourceSheet = m_source_data.GetSelectSheet();
+            var targetSheet = m_target_data.GetSelectSheet();
+
+            sourceResult_label.Content = "对比结果：  " + cou + "  个错误";
             //sourceTableData.Rows
 
         }

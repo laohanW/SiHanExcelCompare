@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SiHanExcelCompare"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" ResizeMode ="NoResize"
-        Title="思晗对比工具" Height="800" Width="1400"  MinHeight="800" MinWidth="1400"  MaxHeight="800" MaxWidth="1400">
+        Title="思晗对比工具" Height="850" Width="1400"  MinHeight="850" MinWidth="1400"  MaxHeight="850" MaxWidth="1400">
     <Grid Name="grid1" Margin="24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="670"/>
@@ -16,8 +16,9 @@
             <RowDefinition Height="200" />
             <RowDefinition Height="29" />
             <RowDefinition Height="490"/>
+            <RowDefinition Height="53*"/>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,0,4,0">
+        <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,0,4,28" Grid.RowSpan="2">
             <Grid Name="sourceGrid" Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="49"/>
@@ -83,7 +84,7 @@
                 </ListView>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="0" Grid.Column="1" Margin="4,0,0,0">
+        <GroupBox Grid.Row="0" Grid.Column="1" Margin="4,0,0,28" Grid.RowSpan="2">
             <Grid Name="targetGrid" Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="49"/>
@@ -153,7 +154,7 @@
                 </ListView>
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" >
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,1,0,488" Grid.RowSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="96"/>
                 <ColumnDefinition Width="574" />
@@ -164,17 +165,25 @@
             <Button x:Name="export_btn"  Grid.Row="0" Grid.Column="0"  Click="export_btn_Click">导出结果</Button>
             <Button x:Name="export_btn_all"  Grid.Row="0" Grid.Column="1" Click="export_btn_all_Click" HorizontalAlignment="Left" Width="102" Margin="30,0,0,0">导出原表</Button>
             <Button Grid.Row="0" Grid.Column="4" x:Name="Compare_btn" HorizontalAlignment="Left" Width="79" Padding="2,1,1,1" Margin="8,0,0,0" Click="Compare_btn_Click">对比</Button>
-            <CheckBox  Grid.Row="0" Grid.Column="3" x:Name="showAll_ck" IsChecked="True" VerticalAlignment="Center"  FlowDirection="LeftToRight" Unchecked="showAll_ck_Unchecked" Checked="showAll_ck_Checked"  >显示全部</CheckBox>
+            <CheckBox  Grid.Row="0" Grid.Column="3" x:Name="showAll_ck" VerticalAlignment="Center"  FlowDirection="LeftToRight" Unchecked="showAll_ck_Unchecked" Checked="showAll_ck_Checked" IsChecked="True"  >显示全部</CheckBox>
         </Grid>
-        <StackPanel  Grid.Row="2" Grid.ColumnSpan="2">
+        <StackPanel  Grid.Row="2" Grid.ColumnSpan="2" Margin="0,2,0,3" Grid.RowSpan="2">
             <Grid Name="scrollGrid" Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="660"/>
                     <ColumnDefinition Width="660" />
                 </Grid.ColumnDefinitions>
                 <DataGrid Name="sourceTableData" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" MinWidth="650" MaxWidth="650" MinHeight="470" MaxHeight="470" LoadingRow="sourceTableData_LoadingRow" GridLinesVisibility="Horizontal" IsReadOnly="True"/>
-                <DataGrid Name="targetTableData" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" MinWidth="650" MaxWidth="650" MinHeight="470" MaxHeight="470" LoadingRow="targetTableData_LoadingRow" IsReadOnly="True" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray"/>
+                <DataGrid Name="targetTableData" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" MinWidth="650" MaxWidth="650" MinHeight="470" MaxHeight="470" LoadingRow="targetTableData_LoadingRow" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray" IsReadOnly="True"/>
             </Grid>
         </StackPanel>
+        <Grid Grid.Row="4" Grid.ColumnSpan="2"   >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="669"/>
+                <ColumnDefinition Width="189" />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="sourceResult_label"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" ></Label>
+            <Label x:Name="targetResult_label" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"  ></Label>
+        </Grid>
     </Grid>
 </Window>
